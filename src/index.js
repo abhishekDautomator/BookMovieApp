@@ -4,7 +4,8 @@ import './index.css';
 import 'typeface-roboto';
 import registerServiceWorker from './registerServiceWorker';
 import Controller from './screens/Controller';
-import Header from './common/header/Header'
+import Login from './screens/login/Login';
+import Header from './common/header/Header';
 
-ReactDOM.render(<Header />, document.getElementById('root'));
+ReactDOM.render(<Login/>, document.getElementById('root'));
 registerServiceWorker();
