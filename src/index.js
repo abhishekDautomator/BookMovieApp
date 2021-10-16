@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Controller from './screens/Controller';
 import Login from './screens/login/Login';
 import Header from './common/header/Header';
+import Home from './screens/home/Home';
 
-ReactDOM.render(<Header/>, document.getElementById('root'));
+ReactDOM.render(<Home/>, document.getElementById('root'));
 registerServiceWorker();
