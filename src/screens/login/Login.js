@@ -3,7 +3,8 @@ import Modal from "react-modal";
 import { Switch, Link, BrowserRouter as Router, Route } from "react-router-dom";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { FormControl, Button, TextField, Grid } from "@material-ui/core";
+import { FormControl, Button, TextField, IconButton } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import "./Login.css";
 import { useForm, Controller } from "react-hook-form";
 
@@ -18,7 +19,7 @@ const customStyles = {
   },
 };
 
-export default function Login() {
+export default function Login({show, setShow}) {
 
   const customStylesTextArea = {
       margin:"10px 0 10px"
@@ -31,7 +32,9 @@ export default function Login() {
   };
 
   const [modalIsOpen, setIsOpen] = useState(true);
- 
+  const { register, handleSubmit, control, errors } = useForm();
+  const onSubmit = (data) => console.log(data);
+  console.log(errors);
 
   function openModal() {
     setIsOpen(true);
@@ -41,19 +44,22 @@ export default function Login() {
     // references are now sync'd and can be accessed.
   }
 
-  function closeModal() {
-    setIsOpen(false);
+  function closeModal(event, reason) {
+    setShow(false);
   }
 
   return (
     <div>
+      {
+      show ?
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={show}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
         ariaHideApp={false}
-      >
+        disableBackdropClick
+      > 
         <Tabs value={value} onChange={handleChange}>
           <Tab label="LOGIN" />
           <Tab label="REGISTER" />
@@ -61,18 +67,21 @@ export default function Login() {
         <TabPanel value={value} index={0}>
           <div className="form">
             <div className="form-controller">
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
                   <TextField 
                   style={customStylesTextArea} 
                   required 
                   label="Username"
                   />
+                
                   <TextField 
                   style={customStylesTextArea} 
                   required 
                   label="Password"
                   />
                 </FormControl>
+              </form>
             </div>
             <div className="form-button">
               <Button color="primary" variant="contained">
@@ -100,6 +109,9 @@ export default function Login() {
           </div>
         </TabPanel>
       </Modal>
+      :
+      null
+      }
     </div>
   );
 }

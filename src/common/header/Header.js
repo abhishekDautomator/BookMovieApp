@@ -10,11 +10,16 @@ import Login from "../../screens/login/Login";
 export default function Header() {
 
     const [show, setShow] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShow(prev=>!prev)
+    }
     
     const isLoggedIn =false;
     
-    return(
-        // <Router> 
+    return( 
             <div className="header">
             <img src={logo} className="rotate"/>
             {   
@@ -23,7 +28,7 @@ export default function Header() {
                     className="loginBtn rightBtn" 
                     variant="contained" 
                     name="Login" 
-                    onClick={() => setShow(prev => !prev)}
+                    onClick={openModal}
                 >
                     LOGIN
                 </Button>
@@ -34,14 +39,13 @@ export default function Header() {
                     className="logoutBtn rightBtn" 
                     variant="contained" 
                     name="Logout"
-                    onClick={() => setShow(prev => !prev)}
+                    onClick={openModal}
                 >
                     LOGOUT
                 </Button>
             }
             {
                 show && 
-                // <Link to="/show">
                     <Button 
                         style={{marginRight:"1em"}} 
                         className="bookShowBtn rightBtn" 
@@ -50,15 +54,9 @@ export default function Header() {
                     >
                         BOOK SHOW
                     </Button>
-                // </Link>
             }
-             {/* <Switch>
-                <Route exact path="/login" render={(props)=><Login {...props}/>}/>
-                {   isLoggedIn && 
-                    <Route exact path="/show" render={(props)=><BookShow {...props}/>}/>
-                }
-            </Switch> */}
+            <Login show={show} setShow={setShow}></Login>
             </div> 
-        // </Router>  
     );
 }
+
