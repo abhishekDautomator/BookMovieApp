@@ -15,7 +15,7 @@ import {
   Select,
   MenuItem,
   Checkbox,
-  ListItemText 
+  ListItemText,
 } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -91,33 +91,32 @@ const theme = createTheme({
 });
 
 const genresList = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-]
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 
 const artistsList = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-]
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 
 export default function Home() {
-
   const [genres, setGenres] = useState([]);
 
   const [artists, setArtists] = useState([]);
@@ -131,20 +130,16 @@ export default function Home() {
 
   const onGenreSelect = (e) => {
     const {
-        target: { value },
-      } = e;
-      setGenres(
-        typeof value === 'string' ? value.split(',') : value,
-      );
+      target: { value },
+    } = e;
+    setGenres(typeof value === "string" ? value.split(",") : value);
   };
 
   const onArtistSelect = (e) => {
     const {
-        target: { value },
-      } = e;
-      setArtists(
-        typeof value === 'string' ? value.split(',') : value,
-      );
+      target: { value },
+    } = e;
+    setArtists(typeof value === "string" ? value.split(",") : value);
   };
 
   return (
@@ -179,7 +174,9 @@ export default function Home() {
           <Card>
             <ThemeProvider theme={theme}>
               <CardContent>
-                <Typography className="cardComponent" component="div">FIND MOVIES BY:</Typography>
+                <Typography className="cardComponent" component="div">
+                  FIND MOVIES BY:
+                </Typography>
                 <form className="form">
                   <FormControl>
                     <TextField
@@ -198,14 +195,14 @@ export default function Home() {
                       label="Genres"
                       onChange={onGenreSelect}
                       multiple
-                      renderValue={(selected) => selected.join(', ')}
+                      renderValue={(selected) => selected.join(", ")}
                     >
-                    {genresList.map((genre) => (
+                      {genresList.map((genre) => (
                         <MenuItem key={genre} value={genre}>
-                        <Checkbox checked={genres.indexOf(genre) > -1} />
-                        <ListItemText primary={genre} />
+                          <Checkbox checked={genres.indexOf(genre) > -1} />
+                          <ListItemText primary={genre} />
                         </MenuItem>
-                    ))}
+                      ))}
                     </Select>
                   </FormControl>
                   <FormControl variant="standard">
@@ -217,14 +214,14 @@ export default function Home() {
                       label="Artists"
                       onChange={onArtistSelect}
                       multiple
-                      renderValue={(selected) => selected.join(', ')}
+                      renderValue={(selected) => selected.join(", ")}
                     >
-                    {artistsList.map((artist) =>(
+                      {artistsList.map((artist) => (
                         <MenuItem key={artist} value={artist}>
-                        <Checkbox checked={artists.indexOf(artist) > -1} />
-                        <ListItemText primary={artist} />
+                          <Checkbox checked={artists.indexOf(artist) > -1} />
+                          <ListItemText primary={artist} />
                         </MenuItem>
-                    ))}
+                      ))}
                     </Select>
                   </FormControl>
                   <FormControl>
@@ -249,7 +246,11 @@ export default function Home() {
                       }}
                     />
                   </FormControl>
-                  <Button style={{marginTop:'30px', marginBottom:'10px'}}color="primary" variant="contained">
+                  <Button
+                    style={{ marginTop: "30px", marginBottom: "10px" }}
+                    color="primary"
+                    variant="contained"
+                  >
                     APPLY
                   </Button>
                 </form>

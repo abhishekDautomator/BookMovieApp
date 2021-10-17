@@ -1,0 +1,24 @@
+.backBtn{
+    cursor: pointer;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.container{
+    display: flex;
+}
+
+.column1{
+    flex:20%;
+    margin: 16px;
+}
+
+.column2{
+    flex:60%;
+    margin: 16px;
+}
+
+.column3{
+    flex:20%;
+    margin: 16px;
+}
