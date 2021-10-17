@@ -4,7 +4,7 @@ import {
   Typography,
   GridList,
   GridListTile,
-  GridListTileBar,
+  GridListTileBar
 } from "@material-ui/core";
 import "./Details.css";
 import ReactPlayer from "react-player";
@@ -108,7 +108,7 @@ export default function Details() {
             onChange={(event, newValue) => {
               set_star_rating(newValue);
             }}
-            icon={<StarBorderIcon fontSize="inherit"></StarBorderIcon>}
+            iconNormal={<StarBorderIcon style={{color:"black"}}></StarBorderIcon>}
           />
           <Typography style={{ margin: "16px 0" }}>
             <b>Artists:</b>
