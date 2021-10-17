@@ -32,4 +32,9 @@
 
 .tiles{
     margin: 24px;
+    cursor: pointer;
+}
+
+.form{
+    display: grid;
 }
