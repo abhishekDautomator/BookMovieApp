@@ -9,4 +9,27 @@
 .grid_scroll{
     display:flex;
     overflow-x: auto;
+    width: 100%;
+}
+
+.tiles_scroll{
+    margin:1px;
+}
+
+.container{
+    display: flex;
+}
+
+.column1{
+    flex:76%;
+    margin: 16px;
+}
+
+.column2{
+    flex:24%;
+    margin: 16px;
+}
+
+.tiles{
+    margin: 24px;
 }
