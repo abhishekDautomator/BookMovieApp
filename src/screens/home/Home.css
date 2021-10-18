@@ -20,12 +20,12 @@
     display: flex;
 }
 
-.column1{
+.col1{
     flex:76%;
     margin: 16px;
 }
 
-.column2{
+.col2{
     flex:24%;
     margin: 16px;
 }

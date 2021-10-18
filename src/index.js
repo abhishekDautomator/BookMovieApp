@@ -6,8 +6,8 @@ import registerServiceWorker from './registerServiceWorker';
 import Controller from './screens/Controller';
 import Login from './screens/login/Login';
 import Header from './common/header/Header';
-import etails from './screens/home/Home';
+import Home from './screens/home/Home';
 import Details from './screens/details/Details';
 
-ReactDOM.render(<Details/>, document.getElementById('root'));
+ReactDOM.render(<Home/>, document.getElementById('root'));
 registerServiceWorker();
