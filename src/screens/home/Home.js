@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import moment from "moment";
 import Header from "../../common/header/Header";
 import "./Home.css";
 import {
@@ -19,24 +21,6 @@ import {
 } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-
-const upcomingMovies = [
-  {
-    thumbnail: {
-      uri: "https://lorempixel.com/200/200/animals",
-      name: "animals",
-    },
-  },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/city", name: "city" } },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/city", name: "city" } },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/city", name: "city" } },
-  {
-    thumbnail: { uri: "https://lorempixel.com/200/200/nature", name: "nature" },
-  },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/cats", name: "cats" } },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/cats", name: "cats" } },
-  { thumbnail: { uri: "https://lorempixel.com/200/200/cats", name: "cats" } },
-];
 
 const releasedMovies = [
   {
@@ -123,6 +107,26 @@ export default function Home() {
 
   const [data, setData] = useState("");
 
+  const [upcoming_movies, set_upcoming_movies] = useState([]);
+  const [released_movies, set_released_movies] = useState([]);
+
+  async function loadData() {
+    const input = await fetch(
+      "http://localhost:8085/api/v1/movies?page=1&limit=10"
+    );
+    const data = await input.json();
+    console.log(data.movies);
+    set_upcoming_movies(data.movies);
+    const released = data.movies.filter((movie) =>
+      Object.keys(movie).some((m) => movie[m] === "RELEASED")
+    );
+    set_released_movies(released);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   const onChange = (e) => {
     e.persist();
     setData({ ...data, [e.target.name]: e.target.value });
@@ -148,29 +152,32 @@ export default function Home() {
       <header className="head">Upcoming Movies</header>
       <GridList cellHeight={180} cols={6}>
         <div className="grid_scroll" style={{ width: "100%" }}>
-          {upcomingMovies.map((image) => (
+          {upcoming_movies.map((movie) => (
             <GridListTile className="tiles_scroll">
-              <img src={image.thumbnail.uri} />
-              <GridListTileBar title={image.thumbnail.name} />
+              <img src={movie.poster_url} />
+              <GridListTileBar title={movie.title} />
             </GridListTile>
           ))}
         </div>
       </GridList>
       <div className="container" style={{ width: "100%" }}>
-        <div className="column1">
+        <div className="col1">
           <GridList cellHeight={350} cols={4}>
-            {releasedMovies.map((image) => (
+            {released_movies.map((movie) => (
               <GridListTile className="tiles">
-                <img src={image.thumbnail.uri} onClick={openMoviePage} />
+                <img src={movie.poster_url} onClick={openMoviePage} />
                 <GridListTileBar
-                  title={image.thumbnail.name}
-                  subtitle={"Release Date:" + image.thumbnail.releaseDate}
+                  title={movie.title}
+                  subtitle={
+                    "Release Date:" +
+                    moment(movie.release_date).format("ddd MMM DD YYYY")
+                  }
                 />
               </GridListTile>
             ))}
           </GridList>
         </div>
-        <div className="column2">
+        <div className="col2">
           <Card>
             <ThemeProvider theme={theme}>
               <CardContent>
