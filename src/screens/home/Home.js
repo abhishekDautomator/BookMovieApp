@@ -53,7 +53,7 @@ function Home(props) {
     const data = await input.json();
     set_movies_List(data.movies);
     set_released_movies(data.movies);
-
+    console.log("Initial movie list load : "+movies_list);
   }
 
   async function loadGenres() {
@@ -114,7 +114,7 @@ function Home(props) {
     let dataFilterList = released_movies.filter((movie) => {
         let dataFilter = {};
         if (filterData.title) {
-            if (`${movie.title}`.toLowerCase() === `${filterData.title}`.toLowerCase()) {
+            if (`${movie.title}`.toLowerCase().includes(`${filterData.title}`.toLowerCase())) {
                 dataFilter.titleStatus = true;
             } else {
                 dataFilter.titleStatus = false;
@@ -131,6 +131,7 @@ function Home(props) {
             }
         }
         if (filterData.artistList && filterData.artistList.length > 0) {
+            console.log("releasdatastart status :"+filterData.artistList);
             movie.artists && movie.artists.map(artist => {
                 const name = artist.first_name + " " + artist.last_name;
                 if (filterData.artistList.indexOf(name) > -1) {
@@ -142,10 +143,10 @@ function Home(props) {
             }
         }
         let endDate = new Date();
-        if (filterData.releasedateend) {
+        if (filterData.releasedateend && (typeof filterData.releasedateend)===(typeof "")) {
             endDate = new Date(filterData.releasedateend);
         }
-        if (filterData.releasedatestart) {
+        if (filterData.releasedatestart && (typeof filterData.releasedatestart)===(typeof "")) {
             const startDate = new Date(filterData.releasedatestart);
             const filmDate = new Date(movie.release_date);
             if (filmDate >= startDate && filmDate <= endDate) {
