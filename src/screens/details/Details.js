@@ -4,7 +4,7 @@ import {
   Typography,
   GridList,
   GridListTile,
-  GridListTileBar
+  GridListTileBar,
 } from "@material-ui/core";
 import "./Details.css";
 import ReactPlayer from "react-player";
@@ -12,6 +12,9 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "material-ui-rating";
 
 export default function Details() {
+  const movieId = useSelector(state => state.movie);
+   console.log(`Movie Id: ${movieId}`); 
+
   const [posterUrl, setPosterUrl] = useState(
     "https://lorempixel.com/200/200/animals"
   );
@@ -51,15 +54,17 @@ export default function Details() {
   return (
     <>
       <Header></Header>
-      <Typography
-        style={{ margin: "8px 0 0 24px", height: "24px" }}
-        component="button"
-        variant="text"
-        className="backBtn"
-        color="primary"
-      >
-        &lt; Back to Home
-      </Typography>
+      <Link to="/">
+        <Typography
+          style={{ margin: "8px 0 0 24px", height: "24px" }}
+          component="button"
+          variant="text"
+          className="backBtn"
+          color="primary"
+        >
+          &lt; Back to Home
+        </Typography>
+      </Link>
       <div className="container">
         <div className="column1">
           <img className="poster" src={posterUrl}></img>
@@ -108,7 +113,9 @@ export default function Details() {
             onChange={(event, newValue) => {
               set_star_rating(newValue);
             }}
-            iconNormal={<StarBorderIcon style={{color:"black"}}></StarBorderIcon>}
+            iconNormal={
+              <StarBorderIcon style={{ color: "black" }}></StarBorderIcon>
+            }
           />
           <Typography style={{ margin: "16px 0" }}>
             <b>Artists:</b>
