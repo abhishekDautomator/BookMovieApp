@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, setState } from "react";
 import Header from "../../common/header/Header";
 import {
   Typography,
@@ -10,51 +10,51 @@ import "./Details.css";
 import ReactPlayer from "react-player";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "material-ui-rating";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
-export default function Details() {
-  const movieId = useSelector(state => state.movie);
-   console.log(`Movie Id: ${movieId}`); 
+export default function Details(props) { 
 
-  const [posterUrl, setPosterUrl] = useState(
-    "https://lorempixel.com/200/200/animals"
-  );
-  const [title, setTitle] = useState("Inception");
-  const [genres, setGenres] = useState("Action, Adventure, Sci-Fi");
-  const [duration, setDuration] = useState("14:8");
-  const [releaseDate, setReleaseDate] = useState("Fri Jul 16 2010");
-  const [rating, setRating] = useState("8.8");
-  const [story_line, set_story_line] = useState(
-    "jhvdbhjbhjkbcjnbdjhcb jhbdcjhbdsjkh ckjhbchjkbsdcjhb jhvhjv jhvjhgvhvg jhvjhgvhvhjv kjbkjhbjhjhb jhjhvhb"
-  );
-  const [wiki_url, set_wiki_url] = useState(
-    "https://en.wikipedia.org/wiki/Inception"
-  );
-  const [trailer_url, set_trailer_url] = useState(
-    "https://www.youtube.com/watch?v=YoHD9XEInc0"
-  );
-  const [star_rating, set_star_rating] = useState(0);
-  const [artists, setArtists] = useState([
-    {
-      profile_url: "https://lorempixel.com/200/200/city",
-      first_name: "aha",
-      last_name: "hjbhb",
-    },
-    {
-      profile_url: "https://lorempixel.com/200/200/cats",
-      first_name: "aha",
-      last_name: "hjbhb",
-    },
-    {
-      profile_url: "https://lorempixel.com/200/200/cats",
-      first_name: "aha",
-      last_name: "hjbhb",
-    },
-  ]);
+  const [movie_detail, set_movie_detail] = useState({
+    poster_url:"",
+    artists:[],
+    title:"",
+    genres:[],
+    duration:0,
+    release_date:"",
+    rating:0,
+    storyline:"",
+    id:"",
+    wiki_url:"",
+    trailer_url:"",
+    censor_board_rating:""
+  });
+
+    async function data(){
+        const rawData = await fetch(props.baseUrl + "movies/"+props.match.params.id ,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            }
+        });
+        const data = await rawData.json();
+        set_movie_detail(data);
+    }
+
+    const handleRatingChange = (value) =>{
+        console.log(value);
+        set_movie_detail({...movie_detail,rating:value*2});
+    }
+
+    useEffect(() => {
+        data();
+    }, []);
 
   return (
     <>
-      <Header></Header>
-      <Link to="/">
+      <Header baseUrl={props.baseUrl} movieid={movie_detail.id} ></Header>
         <Typography
           style={{ margin: "8px 0 0 24px", height: "24px" }}
           component="button"
@@ -62,44 +62,45 @@ export default function Details() {
           className="backBtn"
           color="primary"
         >
+        <Link to="/" style={{textDecoration: "none"}}>
           &lt; Back to Home
+        </Link>
         </Typography>
-      </Link>
       <div className="container">
         <div className="column1">
-          <img className="poster" src={posterUrl}></img>
+          <img className="poster" src={movie_detail.poster_url}></img>
         </div>
         <div className="column2">
           <Typography variant="title" component="h2">
-            {title}
+            {movie_detail.title}
           </Typography>
           <Typography>
             <b>Genre: </b>
-            {genres}
+            {movie_detail.genres.join(", ")}
           </Typography>
           <Typography>
             <b>Duration: </b>
-            {duration}
+            {movie_detail.duration}
           </Typography>
           <Typography>
             <b>Release Date: </b>
-            {releaseDate}
+            {moment(movie_detail.release_date).format("ddd MMM DD YYYY")}
           </Typography>
           <Typography>
             <b>Rating: </b>
-            {rating}
+            {movie_detail.rating}
           </Typography>
           <br />
           <Typography>
             <b>Plot: </b>
-            <a href={wiki_url}>(Wiki Link)</a>
-            {" " + story_line}
+            <a href={movie_detail.wiki_url}>(Wiki Link)</a>
+            {" " + movie_detail.storyline}
           </Typography>
           <br />
           <Typography>
             <b>Trailer: </b>
             <br />
-            <ReactPlayer url={trailer_url} controls="true" />
+            <ReactPlayer url={movie_detail.trailer_url} controls="true" />
           </Typography>
         </div>
         <div className="column3">
@@ -107,21 +108,16 @@ export default function Details() {
             <b>Rate this movie</b>
           </Typography>
           <Rating
-            name="starRating"
-            value={star_rating}
+            name="rating"
+            value={movie_detail.rating/2}
             max={5}
-            onChange={(event, newValue) => {
-              set_star_rating(newValue);
-            }}
-            iconNormal={
-              <StarBorderIcon style={{ color: "black" }}></StarBorderIcon>
-            }
-          />
+            onChange={handleRatingChange}
+            />
           <Typography style={{ margin: "16px 0" }}>
             <b>Artists:</b>
           </Typography>
           <GridList cellWidth={100} cols={2}>
-            {artists.map((artist) => (
+            {movie_detail.artists.map((artist) => (
               <GridListTile>
                 <img src={artist.profile_url} />
                 <GridListTileBar

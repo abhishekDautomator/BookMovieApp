@@ -4,9 +4,9 @@ import moment from "moment";
 import Header from "../../common/header/Header";
 import "./Home.css";
 import {
-  GridList,
-  GridListTile,
-  GridListTileBar,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
   Card,
   CardContent,
   Typography,
@@ -30,7 +30,7 @@ const customStylesTextArea = {
 const styles = (theme) => ({
     typo: {
         color: theme.palette.primary.light,
-        margin: theme.spacing.unit
+        margin: theme.spacing()
     },
 });
 
@@ -53,6 +53,7 @@ function Home(props) {
     const data = await input.json();
     set_movies_List(data.movies);
     set_released_movies(data.movies);
+
   }
 
   async function loadGenres() {
@@ -167,44 +168,43 @@ function Home(props) {
 
   return (
     <>
-      <Header></Header>
+      <Header baseUrl={props.baseUrl} ></Header>
       <header className="head">Upcoming Movies</header>
-      <GridList cellHeight={250} cols={6}>
+      <ImageList rowHeight={250} cols={6}>
         <div className="grid_scroll" style={{ width: "100%" }}>
           {released_movies.map((movie) => (
-            <GridListTile className="tiles_scroll" key={movie.id}>
+            <ImageListItem  className="tiles_scroll" key={movie.id}>
               <img src={movie.poster_url} alt={movie.title}/>
-              <GridListTileBar title={movie.title} />
-            </GridListTile>
+              <ImageListItemBar title={movie.title} />
+            </ImageListItem >
           ))}
         </div>
-      </GridList>
+      </ImageList>
       <div className="container" style={{ width: "100%" }}>
         <div className="col1">
-          <GridList cellHeight={350} cols={4}>
+          <ImageList rowHeight={350} cols={4}>
             {movies_list.map((movie) => (
-              <GridListTile className="tiles" key={movie.id}>
+              <ImageListItem  className="tiles" key={movie.id}>
                 <Router>
-                  <Link to={"/movie/" +movie.id}>
+                  <Link to={"/movie/"+movie.id}>
                     <img src={movie.poster_url} alt={movie.title}/>
                   </Link>
                 </Router>
-                <GridListTileBar
+                <ImageListItemBar
                   title={movie.title}
                   subtitle={
                     "Release Date:" +
                     moment(movie.release_date).format("ddd MMM DD YYYY")
                   }
                 />
-              </GridListTile>
+              </ImageListItem >
             ))}
-          </GridList>
+          </ImageList>
         </div>
         <div className="col2">
           <Card>
-            <ThemeProvider>
               <CardContent>
-                <Typography className={classes.typo} component="div" variant="headline">
+                <Typography className={classes.typo} component="div" variant="h6">
                   FIND MOVIES BY:
                 </Typography>
                 <form className="form">
@@ -291,7 +291,6 @@ function Home(props) {
                   </Button>
                 </form>
               </CardContent>
-            </ThemeProvider>
           </Card>
         </div>
       </div>
