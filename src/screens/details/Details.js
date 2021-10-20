@@ -9,9 +9,17 @@ import {
 import "./Details.css";
 import ReactPlayer from "react-player";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-import Rating from "material-ui-rating";
+import Rating from "@material-ui/lab/Rating";
+import { makeStyles,withStyles} from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import moment from "moment";
+
+
+const UseStyles = withStyles({
+    iconFilled: {
+      color: "yellow"
+    }
+  })(Rating);
 
 export default function Details(props) { 
 
@@ -47,6 +55,7 @@ export default function Details(props) {
         console.log(value);
         set_movie_detail({...movie_detail,rating:value*2});
     }
+
 
     useEffect(() => {
         data();
@@ -107,11 +116,15 @@ export default function Details(props) {
           <Typography>
             <b>Rate this movie</b>
           </Typography>
-          <Rating
+          <UseStyles
             name="rating"
             value={movie_detail.rating/2}
             max={5}
-            onChange={handleRatingChange}
+            visuallyHidden="false"
+            onChange={(e, newValue)=>{handleRatingChange(newValue);}}
+            icon={
+                <StarBorderIcon fontSize="inherit" />
+            }
             />
           <Typography style={{ margin: "16px 0" }}>
             <b>Artists:</b>
