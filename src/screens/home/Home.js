@@ -185,11 +185,9 @@ function Home(props) {
           <ImageList rowHeight={350} cols={4}>
             {movies_list.map((movie) => (
               <ImageListItem  className="tiles" key={movie.id}>
-                <Router>
-                  <Link to={"/movie/"+movie.id}>
-                    <img src={movie.poster_url} alt={movie.title}/>
-                  </Link>
-                </Router>
+                <Link to={"/movie/"+movie.id}>
+                <img src={movie.poster_url} alt={movie.title}/>
+                </Link>
                 <ImageListItemBar
                   title={movie.title}
                   subtitle={

@@ -106,6 +106,8 @@ export default function Header(props) {
         }
     }
 
+    let bookshowBtn;
+
     const onLoginFormSubmitted = () => {
         if (validateLoginForm()) {
             fetch(props.baseUrl + 'auth/login',
@@ -179,8 +181,6 @@ export default function Header(props) {
             openModal();
         }
     }
-
-    let bookshowBtn;
 
     if (props.detailButton) {
         bookshowBtn = <Button variant="contained" color="primary" onClick={bookShowHandler}>Book Show</Button>;

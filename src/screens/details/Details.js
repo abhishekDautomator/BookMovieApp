@@ -54,7 +54,7 @@ export default function Details(props) {
 
   return (
     <>
-      <Header baseUrl={props.baseUrl} movieid={movie_detail.id} ></Header>
+      <Header baseUrl={props.baseUrl} movieid={movie_detail.id} detailButton></Header>
         <Typography
           style={{ margin: "8px 0 0 24px", height: "24px" }}
           component="button"
